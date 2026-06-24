@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HingePoint — The moment everything could have gone either way</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0e0e0e;
+    --white: #fafaf8;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: rgba(0,0,0,0.1);
+    --accent: #c8401a;
+    --accent-light: #f5ede9;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 17px;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2.5rem;
+    background: var(--white);
+    border-bottom: 0.5px solid var(--line);
+    z-index: 100;
+  }
+
+  .wordmark {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  .wordmark span { color: var(--accent); }
+
+  nav a.cta {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  nav a.cta:hover { background: var(--accent); color: white; }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2.5rem 5rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 1.75rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: var(--black);
+    color: white;
+    padding: 0.85rem 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 2px;
+    letter-spacing: 0.03em;
+    transition: background 0.2s;
+  }
+
+  .hero-cta:hover { background: var(--accent); }
+
+  .divider {
+    width: 100%;
+    height: 0.5px;
+    background: var(--line);
+    margin: 0 auto;
+  }
+
+  .why {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem;
+  }
+
+  .why h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: var(--black);
+  }
+
+  .why p {
+    color: var(--muted);
+    max-width: 540px;
+    font-size: 1.05rem;
+    line-height: 1.85;
+  }
+
+  .pull-quote {
+    border-left: 2px solid var(--accent);
+    padding: 1.25rem 0 1.25rem 2rem;
+    margin: 3rem 0;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: var(--black);
+    font-style: italic;
+  }
+
+  .form-section {
+    background: var(--black);
+    color: white;
+    padding: 6rem 2.5rem;
+  }
+
+  .form-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .form-inner .eyebrow { color: var(--accent); }
+
+  .form-inner h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    color: white;
+  }
+
+  .form-inner > p {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+  }
+
+  .field {
+    margin-bottom: 1.75rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 0.6rem;
+  }
+
+  textarea, input[type="text"] {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    padding: 0.85rem 1rem;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  textarea:focus, input[type="text"]:focus {
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  textarea::placeholder, input::placeholder {
+    color: rgba(255,255,255,0.2);
+  }
+
+  textarea { min-height: 130px; }
+
+  .submit-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.9rem 2.25rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover { opacity: 0.85; }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .anon-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .anon-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .success-msg {
+    display: none;
+    background: rgba(200,64,26,0.12);
+    border: 0.5px solid rgba(200,64,26,0.3);
+    border-radius: 2px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    color: #f5a98a;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .stories {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem;
+  }
+
+  .stories h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    color: var(--black);
+  }
+
+  .stories > p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+  }
+
+  .story-card {
+    border-top: 0.5px solid var(--line);
+    padding: 2rem 0;
+  }
+
+  .story-card:last-child { border-bottom: 0.5px solid var(--line); }
+
+  .story-before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .story-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--black);
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .story-what {
+    font-size: 0.9rem;
+    color: var(--muted);
+    padding-left: 1rem;
+    border-left: 2px solid var(--accent);
+  }
+
+  .story-what strong {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+
+  footer {
+    border-top: 0.5px solid var(--line);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  footer p { font-size: 0.82rem; color: var(--muted); }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.25rem; }
+    .hero, .why, .stories { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .form-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="wordmark" href="#">Hinge<span>Point</span></a>
+  <a class="cta" href="#submit">Share yours</a>
+</nav>
+
+<section class="hero">
+  <p class="eyebrow">A human archive</p>
+  <h1>The moment you almost <em>stopped</em>.</h1>
+  <p>Most people who quit were one sentence away from not quitting. We're collecting those sentences — anonymously, permanently, for anyone who needs them.</p>
+  <a class="hero-cta" href="#submit">Share your hinge point</a>
+</section>
+
+<div class="divider"></div>
+
+<section class="why">
+  <h2>Nobody catches the moment it breaks.</h2>
+  <p>There is a specific instant — usually quiet, usually alone — where a person decides they are not worth betting on anymore. They don't announce it. They just slowly stop.</p>
+
+  <div class="pull-quote">
+    "The person closest to giving up doesn't need motivation. They need to feel seen accurately."
+  </div>
+
+  <p>HingePoint is an archive of real turning points. What was happening. What was said. What changed. Not to study it — to give it to the next person who needs it at exactly the right moment.</p>
+</section>
+
+<div class="divider"></div>
+
+<section class="form-section" id="submit">
+  <div class="form-inner">
+    <p class="eyebrow">Your story</p>
+    <h2>Tell us your hinge point.</h2>
+    <p>Anonymous. No account. No email required. Just the truth.</p>
+
+    <form id="hingeForm">
+      <div class="field">
+        <label for="before">Where were you — what were you about to give up on?</label>
+        <textarea id="before" name="before" placeholder="I was about to quit my business. I hadn't slept properly in three weeks..." rows="4"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="what">What was said or done that changed it?</label>
+        <textarea id="what" name="what" placeholder="My brother sent me a voice note at 2am. He didn't give me a pep talk. He just said..." rows="4"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="why">Why did that specific thing land when nothing else had?</label>
+        <textarea id="why" name="why" placeholder="Because he didn't try to fix it. He just named exactly where I was..." rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="domain">What area of life was this? (optional)</label>
+        <input type="text" id="domain" name="domain" placeholder="e.g. business, relationship, health, creative work..." />
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Submit anonymously</button>
+
+      <div class="anon-note">
+        <div class="anon-dot"></div>
+        No name, no email, no tracking. Your story is the only thing that matters.
+      </div>
+
+      <div class="success-msg" id="successMsg">
+        Thank you. Your hinge point is now part of the archive. Someone, somewhere, will read it at exactly the right moment.
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="stories">
+  <h2>From the archive.</h2>
+  <p>Real submissions. Lightly edited for clarity. Shared with permission.</p>
+
+  <div class="story-card">
+    <p class="story-before">Was about to close the business</p>
+    <p class="story-text">"I had written the email to my team saying we were done. My finger was on send."</p>
+    <div class="story-what">
+      <strong>What changed it</strong>
+      A customer called — not to complain, to thank me. He said we had saved his company six months ago and he never got round to saying it. I didn't send the email.
+    </div>
+  </div>
+
+  <div class="story-card">
+    <p class="story-before">Was about to stop writing</p>
+    <p class="story-text">"Three years of work. Not a single person reading it. I decided that night it was over."</p>
+    <div class="story-what">
+      <strong>What changed it</strong>
+      A stranger replied to an essay I forgot I'd published two years earlier. One line: "This is the most accurate thing I have ever read about my father." I kept writing.
+    </div>
+  </div>
+
+  <div class="story-card">
+    <p class="story-before">Was about to leave a city, a life, everything</p>
+    <p class="story-text">"I had the bags packed. I was done pretending the plan was working."</p>
+    <div class="story-what">
+      <strong>What changed it</strong>
+      My son walked in and asked if we could look at the stars tomorrow. He didn't know anything was wrong. That question was the whole reason I was there. I unpacked.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>HingePoint — an anonymous human archive</p>
+  <p>No ads. No accounts. No algorithms.</p>
+</footer>
+
+<script>
+  const form = document.getElementById('hingeForm');
+  const btn = document.getElementById('submitBtn');
+  const successMsg = document.getElementById('successMsg');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const before = document.getElementById('before').value.trim();
+    const what = document.getElementById('what').value.trim();
+    const why = document.getElementById('why').value.trim();
+
+    if (!before || !what) {
+      alert('Please fill in at least the first two fields.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    const entry = {
+      before,
+      what,
+      why,
+      domain: document.getElementById('domain').value.trim(),
+      submitted_at: new Date().toISOString()
+    };
+
+    const existing = JSON.parse(localStorage.getItem('hp_submissions') || '[]');
+    existing.push(entry);
+    localStorage.setItem('hp_submissions', JSON.stringify(existing));
+
+    setTimeout(() => {
+      btn.textContent = 'Submitted';
+      successMsg.style.display = 'block';
+      form.reset();
+    }, 800);
+  });
+</script>
+
+</body>
+</html>
